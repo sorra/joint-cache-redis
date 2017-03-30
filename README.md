@@ -13,8 +13,8 @@ This project shows you how to do this via **Redis pub-sub**!
 4. Things are printed in the shell console
 5. Ctrl+C (or Cmd+C) to shut it down
 
-## Tip:
+## Tips:
 - You can use the `monitor` command in redis-cli to watch what happened to Redis.
 - Throttling may be needed in big applications.
-- Kafka is better here because messages are consumed by all subscribers.
+- Kafka is better here because messages can be consumed by all subscribers.
 [It requires more work in Redis](http://blog.radiant3.ca/2013/01/03/reliable-delivery-message-queues-with-redis/)
