@@ -4,20 +4,22 @@ import com.google.common.cache.Cache
 import redis.clients.jedis.JedisPubSub
 
 
-class SyncListener(val localCache: Cache<String, *>) : JedisPubSub() {
+class SyncListener(val localCache: Cache<String, Any>) : JedisPubSub() {
 
   override fun onMessage(channel: String, message: String) {
-    if (channel == CHAN_SYNC) {
-      val key = message
-      localCache.invalidate(key)
+    if (channel == Utils.CHANNEL) {
+      println("Received sync message: " + message)
+      val key = message.substringBefore('=')
+      val value = message.substringAfter('=')
+      localCache.put(key, value)
     } else {
       println("onMessage got strange channel: ${channel}")
     }
   }
 
   override fun onSubscribe(channel: String, subscribedChannels: Int) {
-    if (channel == CHAN_SYNC) {
-      isSyncConnected.set(true)
+    if (channel == Utils.CHANNEL) {
+      Utils.isSyncConnected.set(true)
     } else {
       println("onSubscribe got strange channel: ${channel}")
     }
